@@ -1,9 +1,9 @@
-include .env
+export IMAGE_NAME=query-user
 
 build:
 	docker build . -t atforestry/$(IMAGE_NAME)
 
-run:
+start run:
 	docker-compose up -d --build
 	docker-compose logs -f --tail=20
 

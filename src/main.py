@@ -9,6 +9,8 @@ import logging
 from logging.config import dictConfig
 from log_config import log_config 
 
+import controllers.deforestation as deforestation
+
 dictConfig(log_config)
 logger = logging.getLogger("capstone") # should be this name unless you change it in log_config.py
 
@@ -45,5 +47,5 @@ async def isDeforested(lat: float = None, lng: float = None):
     if not lat or not lng:
         raise HTTPException(status_code=400, detail="lat and lng are required")
     else:
-        return {'isDeforested': 'Ok'}
+        return {'isDeforested': deforestation.isDeforested(lat, lng)}
 
