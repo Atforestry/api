@@ -11,9 +11,15 @@ conn = psycopg2.connect(
 
 def isDeforested(lat: float, lng: float):
   cur = conn.cursor()
-  query = """SELECT * FROM Prediction WHERE 
-  sqbl_longitude >= %s AND sqbl_latitude >= %s 
-  AND sqtr_longitude <= %s AND sqtr_latitude <= %s"""
+  query = """SELECT * FROM prediction WHERE 
+  sqbl_longitude >= %s AND sqbl_latitude >= %s AND 
+  sqtr_longitude <= %s AND sqtr_latitude <= %s AND 
+  (
+    to_char(now(), 'YYYY-MM') = to_char(created_at, 'YYYY-MM') OR
+    to_char(now() - interval '1 month', 'YYYY-MM') = to_char(created_at, 'YYYY-MM') 
+  )
+  ORDER BY created_at
+  """
   
   cur.execute(query, (lng, lat, lng, lat))
   rows = cur.fetchall()
