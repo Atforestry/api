@@ -10,4 +10,16 @@ conn = psycopg2.connect(
     password=os.environ['POSTGRES_PASSWORD'])
 
 def isDeforested(lat: float, lng: float):
-  return str(os.environ.keys())
+  cur = conn.cursor()
+  query = """SELECT * FROM Prediction WHERE 
+  sqbl_longitude >= %s AND sqbl_latitude >= %s 
+  AND sqtr_longitude <= %s AND sqtr_latitude <= %s"""
+  
+  cur.execute(query, (lng, lat, lng, lat))
+  rows = cur.fetchall()
+
+  if len(rows) == 0:
+    return None 
+  else:
+    return rows
+

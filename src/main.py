@@ -47,5 +47,9 @@ async def isDeforested(lat: float = None, lng: float = None):
     if not lat or not lng:
         raise HTTPException(status_code=400, detail="lat and lng are required")
     else:
-        return {'isDeforested': deforestation.isDeforested(lat, lng)}
+        result = deforestation.isDeforested(lat, lng)
+        if result == None:
+            raise HTTPException(status_code=404, detail="No area found")
+        else:
+            return {'isDeforested': str(list)}
 
