@@ -16,8 +16,8 @@ env:
   DB_URL: "db.default.svc.cluster.local"
   POSTGRES_DB: "atforestry"
   POSTGRES_USER: "postgres"
-  POSTGRES_PASSWORD: "${{ POSTGRES_PASSWORD }}"
-  GOOGLE_APPLICATION_CREDENTIALS: "${{ GOOGLE_APPLICATION_CREDENTIALS }}"
+  POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+  GOOGLE_APPLICATION_CREDENTIALS: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   ARTIFACT_REPO: atforestry-repo
   GKE_CLUSTER: atforestry-cluster    # Add your cluster name here.
