@@ -3,10 +3,10 @@ name: Releases the
 on:
   push:
     branches:
-    - master
+    - main
   pull_request:
     branches:
-    - master
+    - main
 
 env: 
   FETCH_DATA_URL: "fetch-data.default.svc.cluster.local:8000"
