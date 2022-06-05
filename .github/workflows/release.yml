@@ -1,8 +1,12 @@
 name: Releases the
 
-on: [push, pull_request]
-  branches: 
-    - main
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
 env: 
   FETCH_DATA_URL: "fetch-data.default.svc.cluster.local:8000"
