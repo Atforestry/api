@@ -7,5 +7,3 @@ services:
       - "8000:8000" 
     volumes:
       - ./src:/usr/src/app/src
-    env_file:
-      - ./.env
