@@ -16,3 +16,4 @@ bash:
 logs:
 	docker-compose logs -f service
 
+
