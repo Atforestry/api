@@ -2,7 +2,7 @@ import sys
 sys.path.insert(1, './src')
 
 from fastapi import FastAPI, status, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 import logging
@@ -52,5 +52,5 @@ def isDeforested(lat: float = None, lng: float = None):
         if result == None:
             raise HTTPException(status_code=404, detail="No area found")
         else:
-            return {'isDeforested': result}
+            return JSONResponse(content=result)
 
