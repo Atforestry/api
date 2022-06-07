@@ -34,7 +34,7 @@ def perform_healthcheck():
     return {'healthcheck': 'Ok'}
 
 @app.get("/")
-async def main():
+def main():
     content = """
 <body>
 <p>Hello World !</p>
@@ -43,7 +43,7 @@ async def main():
     return HTMLResponse(content=content)
 
 @app.get("/v1/is-deforested")
-async def isDeforested(lat: float = None, lng: float = None):
+def isDeforested(lat: float = None, lng: float = None):
     if not lat or not lng:
         raise HTTPException(status_code=400, detail="lat and lng are required")
     else:
