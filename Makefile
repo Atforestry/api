@@ -1,4 +1,4 @@
-export IMAGE_NAME=query-user
+export IMAGE_NAME=api
 
 build:
 	docker build . -t atforestry/$(IMAGE_NAME)
