@@ -51,5 +51,5 @@ def isDeforested(lat: float = None, lng: float = None):
         if result == None:
             raise HTTPException(status_code=404, detail="No area found")
         else:
-            return {'isDeforested': str(list)}
+            return {'isDeforested': result}
 
