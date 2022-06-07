@@ -17,7 +17,7 @@ logger = logging.getLogger("capstone") # should be this name unless you change i
 app = FastAPI()
 
 origins = [
-    "*"
+    "*.atforestry.com"
 ]
 
 app.add_middleware(
