@@ -3,6 +3,7 @@ import psycopg2
 import json
 import math
 import pandas as pd
+from datetime import datetime
 
 def getSquare(rows):
   return (rows[0][1], rows[0][2], rows[0][3], rows[0][4])
@@ -11,7 +12,27 @@ def calculateDeforestation(rows):
   predictionPast = rows[0][5]
   predictionPresent = rows[1][5]
 
-  return predictionPast.find('primary') > 0 & predictionPresent.find('primary') < 0
+  primary = predictionPast.find('primary') > 0 and predictionPresent.find('primary') < 0
+  cm = predictionPast.find('conventional_mine') < 0 and predictionPresent.find('conventional_mine') > 0
+  am = predictionPast.find('artisinal_mine') < 0 and predictionPresent.find('artisinal_mine') > 0
+  sl = predictionPast.find('selective_logging') < 0 and predictionPresent.find('selective_logging') > 0
+  a = predictionPast.find('agriculture') < 0 and predictionPresent.find('agriculture') > 0
+  bd = predictionPast.find('blow_down') < 0 and predictionPresent.find('blow_down') > 0
+  sb = predictionPast.find('slash_burn') < 0 and predictionPresent.find('slash_burn') > 0
+
+  print(f'primary: {primary}')
+  print(f'cm: {cm}')
+  print(f'am: {am}')
+  print(f'sl: {sl}')
+  print(f'a: {a}')
+  print(f'bd: {bd}')
+  print(f'sb: {sb}')
+
+  result = primary or cm or am or sl or a or bd or sb
+
+  print(f'Result: {result}')
+
+  return result
 
 def getImage(row):
   # https://storage.googleapis.com/atforestry-model-tracker/planet_data/mosaics/a4917528-8540-45bc-be55-b92fb053f602/722-1001/10.png
@@ -68,17 +89,25 @@ def isDeforested(lat: float, lng: float):
   conn.close()
 
   if len(rows) > 0:
+    datePredictionPast = rows[0][6].strftime("%d %b, %Y")
+    datePredictionPresent = rows[1][6].strftime("%d %b, %Y")
     deforestation = calculateDeforestation(rows)
     imagePast = getImage(rows[0])
     imagePresent = getImage(rows[1])
 
-    return {
+    result = {
       'deforestation': deforestation,
       'imagePast': imagePast,
       'imagePresent': imagePresent,
       'past': str(rows[0]),
-      'present': str(rows[1])
+      'present': str(rows[1]),
+      'datePredictionPast': str(datePredictionPast),
+      'datePredictionPresent': str(datePredictionPresent)
     }
+
+    print(result)
+
+    return(result)
   else:
     return json.encoder('{}')
 
