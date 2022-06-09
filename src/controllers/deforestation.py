@@ -16,7 +16,7 @@ def calculateDeforestation(rows):
   cm = predictionPast.find('conventional_mine') < 0 and predictionPresent.find('conventional_mine') > 0
   am = predictionPast.find('artisinal_mine') < 0 and predictionPresent.find('artisinal_mine') > 0
   sl = predictionPast.find('selective_logging') < 0 and predictionPresent.find('selective_logging') > 0
-  a = predictionPast.find('agriculture') < 0 and predictionPresent.find('agriculture') > 0
+  a = false # a = predictionPast.find('agriculture') < 0 and predictionPresent.find('agriculture') > 0
   bd = predictionPast.find('blow_down') < 0 and predictionPresent.find('blow_down') > 0
   sb = predictionPast.find('slash_burn') < 0 and predictionPresent.find('slash_burn') > 0
 
