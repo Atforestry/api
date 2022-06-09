@@ -15,7 +15,7 @@ def calculateDeforestation(rows):
   primary = predictionPast.find('primary') > 0 and predictionPresent.find('primary') < 0
   cm = predictionPast.find('conventional_mine') < 0 and predictionPresent.find('conventional_mine') > 0
   am = predictionPast.find('artisinal_mine') < 0 and predictionPresent.find('artisinal_mine') > 0
-  sl = predictionPast.find('selective_logging') < 0 and predictionPresent.find('selective_logging') > 0
+  sl = False # sl = predictionPast.find('selective_logging') < 0 and predictionPresent.find('selective_logging') > 0
   a = False # a = predictionPast.find('agriculture') < 0 and predictionPresent.find('agriculture') > 0
   bd = predictionPast.find('blow_down') < 0 and predictionPresent.find('blow_down') > 0
   sb = predictionPast.find('slash_burn') < 0 and predictionPresent.find('slash_burn') > 0
@@ -32,6 +32,9 @@ def calculateDeforestation(rows):
   print(f'bd: {bd}')
   print(f'sb: {sb}')
   print(f'rd: {rd}')
+  print(f'haze: {haze}')
+  print(f'cloudy: {cloudy}')
+  print(f'partly_cloudy: {partly_cloudy}')
 
   result = haze and cloudy and partly_cloudy and (primary or cm or am or sl or a or bd or sb or rd)
 
