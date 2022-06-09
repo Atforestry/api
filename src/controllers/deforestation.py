@@ -1,7 +1,41 @@
 import os
 import psycopg2
 import json
+import math
+import pandas as pd
 
+def getSquare(rows):
+  return (rows[0][1], rows[0][2], rows[0][3], rows[0][4])
+
+def calculateDeforestation(rows):
+  predictionPast = rows[0][5]
+  predictionPresent = rows[1][5]
+
+  return predictionPast.find('primary') > 0 & predictionPresent.find('primary') < 0
+
+def getImage(row):
+  # https://storage.googleapis.com/atforestry-model-tracker/planet_data/mosaics/a4917528-8540-45bc-be55-b92fb053f602/722-1001/10.png
+  baseUrl = 'https://storage.googleapis.com/atforestry-model-tracker/planet_data/mosaics'
+  mosaic = row[9]
+  tiff = row[7]
+  roster = row[8]
+
+  return f'{baseUrl}/{mosaic}/{tiff}/{roster}.png'
+
+
+def calculateChip(lng, lat, sqbl_lng, sqbl_lat):
+  chipLng = 0.17578125
+  chipLat = 0.17543409750702
+  deltaLng = chipLng / 18.25
+  deltaLat = chipLat / 18.25
+
+  deltaLng = math.ceil((lng - sqbl_lng) / deltaLng)
+  deltaLat = math.ceil((lat - sqbl_lat) / deltaLat)
+
+  chip = deltaLat * 18 + (deltaLng - 1)
+
+  return chip
+  
 def isDeforested(lat: float, lng: float):
 
   conn = psycopg2.connect(
@@ -14,16 +48,38 @@ def isDeforested(lat: float, lng: float):
   query = """SELECT * FROM prediction WHERE 
   sqbl_longitude <= %s AND sqbl_latitude <= %s AND 
   sqtr_longitude >= %s AND sqtr_latitude >= %s
-  ORDER BY created_at
   """
   
   cur.execute(query, (lng, lat, lng, lat))
   rows = cur.fetchall()
+  
+  (sqbl_lng, sqbl_lat, sqtr_lng, sqtr_lat) = getSquare(rows)
+  chip = calculateChip(lng, lat, sqbl_lng, sqbl_lat)
 
+  query = """SELECT * FROM prediction WHERE 
+  sqbl_longitude <= %s AND sqbl_latitude <= %s AND 
+  sqtr_longitude >= %s AND sqtr_latitude >= %s AND roster = %s
+  ORDER BY predictiontimestamp
+  """
+  
+  cur.execute(query, (lng, lat, lng, lat, str(chip)))
+  rows = cur.fetchall()
+  
   conn.close()
 
-  if len(rows) == 0:
-    return None 
+  if len(rows) > 0:
+    deforestation = calculateDeforestation(rows)
+    imagePast = getImage(rows[0])
+    imagePresent = getImage(rows[1])
+
+    return {
+      'deforestation': deforestation,
+      'imagePast': imagePast,
+      'imagePresent': imagePresent,
+      'past': str(rows[0]),
+      'present': str(rows[1])
+    }
   else:
-    return str(rows)
+    return json.encoder('{}')
+
 
