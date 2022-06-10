@@ -17,9 +17,9 @@ def calculateDeforestation(rows):
   am = predictionPast.find('artisinal_mine') < 0 and predictionPresent.find('artisinal_mine') > 0
   sl = False # sl = predictionPast.find('selective_logging') < 0 and predictionPresent.find('selective_logging') > 0
   a = False # a = predictionPast.find('agriculture') < 0 and predictionPresent.find('agriculture') > 0
-  bd = predictionPast.find('blow_down') < 0 and predictionPresent.find('blow_down') > 0
+  bd = False #bd = predictionPast.find('blow_down') < 0 and predictionPresent.find('blow_down') > 0
   sb = predictionPast.find('slash_burn') < 0 and predictionPresent.find('slash_burn') > 0
-  rd = predictionPast.find('road') < 0 and predictionPresent.find('road') > 0
+  rd = False #rd = predictionPast.find('road') < 0 and predictionPresent.find('road') > 0
   haze = predictionPast.find('haze') < 0 and predictionPresent.find('haze') < 0 
   cloudy = predictionPast.find('cloudy') < 0 and predictionPresent.find('cloudy') < 0
   partly_cloudy = predictionPast.find('partly_cloudy') < 0 and predictionPresent.find('partly_cloudy') < 0
@@ -30,6 +30,9 @@ def calculateDeforestation(rows):
   print(f'sl: {sl}')
   print(f'a: {a}')
   print(f'bd: {bd}')
+  print(predictionPast.find('slash_burn') < 0)
+  print(predictionPresent.find('slash_burn') > 0)
+  print(predictionPast.find('slash_burn') < 0 and predictionPresent.find('slash_burn') > 0)
   print(f'sb: {sb}')
   print(f'rd: {rd}')
   print(f'haze: {haze}')
