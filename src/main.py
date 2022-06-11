@@ -1,4 +1,5 @@
 import sys
+import os
 sys.path.insert(1, './src')
 
 from fastapi import FastAPI, status, HTTPException
@@ -10,6 +11,8 @@ from logging.config import dictConfig
 from log_config import log_config 
 
 import controllers.deforestation as deforestation
+
+import requests
 
 dictConfig(log_config)
 logger = logging.getLogger("capstone") # should be this name unless you change it in log_config.py
@@ -43,6 +46,11 @@ def main():
 </body>
     """
     return HTMLResponse(content=content)
+
+@app.get("/mode-predict")
+def modelpredict():
+    r = requests.get(f'http://{os.environ["MODEL_PREDICT_URL"]}/')
+    return JSONResponse(content=r.json())
 
 @app.get("/v1/is-deforested")
 def isDeforested(lat: float = None, lng: float = None):
