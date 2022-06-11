@@ -47,10 +47,12 @@ def main():
     """
     return HTMLResponse(content=content)
 
-@app.get("/mode-predict")
+@app.get("/model-predict")
 def modelpredict():
-    r = requests.get(f'http://{os.environ["MODEL_PREDICT_URL"]}/')
-    return JSONResponse(content=r.json())
+    url = f'http://{os.environ["MODEL_PREDICT_URL"]}/healthcheck'
+    print(url)
+    r = requests.get(f'http://{os.environ["MODEL_PREDICT_URL"]}/healthcheck')
+    return JSONResponse(content=r.status_code)
 
 @app.get("/v1/is-deforested")
 def isDeforested(lat: float = None, lng: float = None):
