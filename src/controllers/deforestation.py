@@ -70,22 +70,29 @@ def calculateChip(lng, lat, sqbl_lng, sqbl_lat):
   
 def isDeforested(lat: float, lng: float):
 
+  print("Starting deforestation calculation")
+  print("connect to db")
   conn = psycopg2.connect(
       host=os.environ['DB_URL'],
       database=os.environ['POSTGRES_DB'],
       user=os.environ['POSTGRES_USER'],
       password=os.environ['POSTGRES_PASSWORD'])
-      
+  
+  print("Create cursor + query")
   cur = conn.cursor()
   query = """SELECT * FROM prediction WHERE 
   sqbl_longitude <= %s AND sqbl_latitude <= %s AND 
   sqtr_longitude >= %s AND sqtr_latitude >= %s
   """
   
+  print("Execute Query")
   cur.execute(query, (lng, lat, lng, lat))
+  print("Fetch all")
   rows = cur.fetchall()
   
+  print("getSquare")
   (sqbl_lng, sqbl_lat, sqtr_lng, sqtr_lat) = getSquare(rows)
+  print("calculateChip")
   chip = calculateChip(lng, lat, sqbl_lng, sqbl_lat)
 
   query = """SELECT * FROM prediction WHERE 
@@ -94,9 +101,11 @@ def isDeforested(lat: float, lng: float):
   ORDER BY predictiontimestamp
   """
   
+  print("Query Chip to DB")
   cur.execute(query, (lng, lat, lng, lat, str(chip)))
   rows = cur.fetchall()
   
+  print("close connection")
   conn.close()
 
   if len(rows) > 0:
