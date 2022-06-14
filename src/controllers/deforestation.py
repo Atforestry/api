@@ -98,7 +98,7 @@ def isDeforested(lat: float, lng: float):
   query = """SELECT * FROM prediction WHERE 
   sqbl_longitude <= %s AND sqbl_latitude <= %s AND 
   sqtr_longitude >= %s AND sqtr_latitude >= %s AND roster = %s
-  ORDER BY predictiontimestamp
+  ORDER BY predictiontimestamp DESC
   """
   
   print("Query Chip to DB")
@@ -109,18 +109,18 @@ def isDeforested(lat: float, lng: float):
   conn.close()
 
   if len(rows) > 0:
-    datePredictionPast = rows[0][6].strftime("%d %b, %Y")
-    datePredictionPresent = rows[1][6].strftime("%d %b, %Y")
+    datePredictionPast = rows[1][6].strftime("%d %b, %Y")
+    datePredictionPresent = rows[0][6].strftime("%d %b, %Y")
     deforestation = calculateDeforestation(rows)
-    imagePast = getImage(rows[0])
-    imagePresent = getImage(rows[1])
+    imagePast = getImage(rows[1])
+    imagePresent = getImage(rows[0])
 
     result = {
       'deforestation': deforestation,
       'imagePast': imagePast,
       'imagePresent': imagePresent,
-      'past': str(rows[0]),
-      'present': str(rows[1]),
+      'past': str(rows[1]),
+      'present': str(rows[0]),
       'datePredictionPast': str(datePredictionPast),
       'datePredictionPresent': str(datePredictionPresent)
     }
