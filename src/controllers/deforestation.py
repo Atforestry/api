@@ -9,8 +9,8 @@ def getSquare(rows):
   return (rows[0][1], rows[0][2], rows[0][3], rows[0][4])
 
 def calculateDeforestation(rows):
-  predictionPast = rows[0][5]
-  predictionPresent = rows[1][5]
+  predictionPast = rows[1][5]
+  predictionPresent = rows[0][5]
 
   primary = predictionPast.find('primary') > 0 and predictionPresent.find('primary') < 0
   cm = predictionPast.find('conventional_mine') < 0 and predictionPresent.find('conventional_mine') > 0
