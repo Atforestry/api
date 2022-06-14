@@ -55,7 +55,7 @@ def modelpredict():
     return JSONResponse(content=r.status_code)
 
 @app.get("/v1/is-deforested")
-def isDeforested(lat: float = None, lng: float = None):
+async def isDeforested(lat: float = None, lng: float = None):
     if not lat or not lng:
         raise HTTPException(status_code=400, detail="lat and lng are required")
     else:
