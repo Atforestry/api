@@ -79,8 +79,6 @@ def isDeforested(lat: float, lng: float):
       user=os.environ['POSTGRES_USER'],
       password=os.environ['POSTGRES_PASSWORD'])
 
-  return "{}"
-
   print("Create cursor + query")
   cur = conn.cursor()
   query = """SELECT * FROM prediction WHERE 
@@ -92,7 +90,9 @@ def isDeforested(lat: float, lng: float):
   cur.execute(query, (lng, lat, lng, lat))
   print("Fetch all")
   rows = cur.fetchall()
-  
+
+  return "{}"
+
   print("getSquare")
   (sqbl_lng, sqbl_lat, sqtr_lng, sqtr_lat) = getSquare(rows)
   print("calculateChip")
