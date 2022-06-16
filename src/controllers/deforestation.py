@@ -72,8 +72,8 @@ def isDeforested(lat: float, lng: float):
 
   print("Starting deforestation calculation")
   print("connect to db")
-  return JSONResponse({"status": "ok"})
-  
+  return json.encoder('{}')
+
   conn = psycopg2.connect(
       host=os.environ['DB_URL'],
       database=os.environ['POSTGRES_DB'],
