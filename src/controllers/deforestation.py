@@ -85,14 +85,15 @@ def isDeforested(lat: float, lng: float):
   sqbl_longitude <= %s AND sqbl_latitude <= %s AND 
   sqtr_longitude >= %s AND sqtr_latitude >= %s
   """
-  
+
+  return "{}"
+
   print("Execute Query")
   cur.execute(query, (lng, lat, lng, lat))
   print("Fetch all")
   rows = cur.fetchall()
 
-  return "{}"
-
+  
   print("getSquare")
   (sqbl_lng, sqbl_lat, sqtr_lng, sqtr_lat) = getSquare(rows)
   print("calculateChip")
