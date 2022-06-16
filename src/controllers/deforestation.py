@@ -86,10 +86,10 @@ def isDeforested(lat: float, lng: float):
   sqtr_longitude >= %s AND sqtr_latitude >= %s
   """
 
-  return "{}"
 
   print("Execute Query")
   cur.execute(query, (lng, lat, lng, lat))
+return "{}"
   print("Fetch all")
   rows = cur.fetchall()
 
