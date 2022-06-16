@@ -72,14 +72,15 @@ def isDeforested(lat: float, lng: float):
 
   print("Starting deforestation calculation")
   print("connect to db")
-  return json.encoder('{}')
 
   conn = psycopg2.connect(
       host=os.environ['DB_URL'],
       database=os.environ['POSTGRES_DB'],
       user=os.environ['POSTGRES_USER'],
       password=os.environ['POSTGRES_PASSWORD'])
-  
+
+  return "{}"
+
   print("Create cursor + query")
   cur = conn.cursor()
   query = """SELECT * FROM prediction WHERE 
