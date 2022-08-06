@@ -42,7 +42,7 @@ def perform_healthcheck():
 def main():
     content = """
 <body>
-<p>Hello World !</p>
+<p>Hello World API!</p>
 </body>
     """
     return HTMLResponse(content=content)
